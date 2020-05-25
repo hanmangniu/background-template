@@ -9,7 +9,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    redirectTo(){
+      setTimeout(() => {
+        this.$router.push({name:'Login'})
+      }, 3000);
+    }
+  },
+  mounted(){
+    this.redirectTo()
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>

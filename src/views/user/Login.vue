@@ -13,89 +13,55 @@
               @submit="handleSubmit"
             >
               <a-form-model-item>
-                <a-input
-                  v-decorator="[
-                    'userName',
-                    {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Please input your username!',
-                        },
-                      ],
-                    },
-                  ]"
-                  placeholder="Username"
-                >
-                  <a-icon
-                    slot="prefix"
-                    type="user"
-                    style="color: rgba(0,0,0,.25)"
-                  />
+                <a-input placeholder="admin" v-model="form.account">
+                  <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
                 </a-input>
               </a-form-model-item>
               <a-form-model-item>
-                <a-input
-                  v-decorator="[
-                    'password',
-                    {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Please input your Password!',
-                        },
-                      ],
-                    },
-                  ]"
-                  type="password"
-                  placeholder="Password"
-                >
-                  <a-icon
-                    slot="prefix"
-                    type="lock"
-                    style="color: rgba(0,0,0,.25)"
-                  />
+                <a-input type="password" placeholder="admin" v-model="form.password">
+                  <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
                 </a-input>
               </a-form-model-item>
               <a-form-model-item>
-                <a class="login-form-forgot" href="">
-                  忘记密码
-                </a>
-                <a-button
-                  type="primary"
-                  html-type="submit"
-                  class="login-form-button"
-                >
-                  登陆
-                </a-button>
-                <a href="">
-                  注册
-                </a>
+                <a class="login-form-forgot" href>忘记密码</a>
+                <a-button type="primary" html-type="submit" class="login-form-button">登陆</a-button>
+                <a href>注册</a>
               </a-form-model-item>
             </a-form-model>
           </div>
         </div>
       </a-layout-content>
-      <a-layout-footer>Footer</a-layout-footer>
+      <a-layout-footer>
+        Designed and developed by
+        <a
+          class="link"
+          href="http://hanmangniu.com"
+          target="_blank"
+        >Hanmangniu</a>
+        <br />All Rights Reserved
+      </a-layout-footer>
     </a-layout>
   </div>
 </template>
 
 <script>
 export default {
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: "normal_login" });
+  data() {
+    return {
+      form: { account: "", password: "" }
+    };
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log("Received values of form: ", values);
-        }
-      });
-    },
-  },
+      if (this.form.account == "admin" && this.form.password == "admin") {
+        this.$message.success("登陆成功");
+        this.$router.push({ name: "Dashboard" });
+      } else {
+        this.$message.error("登陆失败,账号或密码错误");
+      }
+    }
+  }
 };
 </script>
 
@@ -103,8 +69,8 @@ export default {
 .loginWrap {
   background-image: url("../../assets/loginBack.svg");
   background-repeat: repeat;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   .login {
     text-align: center;
     padding: 60px 80px;
@@ -126,6 +92,25 @@ export default {
       }
       .login-form-button {
         width: 100%;
+      }
+    }
+  }
+}
+.ant-layout {
+  background: transparent;
+  height: 100%;
+  .ant-layout-header {
+    background: transparent;
+    text-align: center;
+  }
+  .ant-layout-footer {
+    background: transparent;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.45);
+    .link {
+      color: rgba(0, 0, 0, 0.45);
+      &:hover {
+        color: rgba(0, 0, 0, 0.65);
       }
     }
   }
