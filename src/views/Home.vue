@@ -9,32 +9,26 @@
   <a-layout v-else id="components-layout">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
       <div class="logo" />
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
-        <a-menu-item key="1">
-          <a-icon type="user" />
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="video-camera" />
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <a-icon type="upload" />
-          <span>nav 3</span>
-        </a-menu-item>
+      <a-menu theme="dark" mode="inline" :defaultOpenKeys="defaultOpenKeys" :defaultSelectedKeys="defaultSelectedKeys">
+        <a-sub-menu key="/dashboard">
+          <span slot="title"><a-icon type="dashboard" /><span>Dashboard</span></span>
+          <a-menu-item key="/dashboard/analysis" @click="jumpLink('/dashboard/analysis')">
+            分析页
+          </a-menu-item>
+          <a-menu-item key="/dashboard/monitor" @click="jumpLink('/dashboard/monitor')">
+            监控页
+          </a-menu-item>
+          <a-menu-item key="/dashboard/workplace" @click="jumpLink('/dashboard/workplace')">
+            工作台
+          </a-menu-item>
+        </a-sub-menu>
       </a-menu>
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
-        <a-icon
-          class="trigger"
-          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-          @click="() => (collapsed = !collapsed)"
-        />
+        <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="() => (collapsed = !collapsed)" />
       </a-layout-header>
-      <a-layout-content
-        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-      >
+      <a-layout-content :style="{ margin: '12px 8px', padding: '12px', minHeight: '280px' }">
         <router-view />
       </a-layout-content>
     </a-layout>
@@ -48,7 +42,9 @@ export default {
   data() {
     return {
       loading: true,
-      collapsed: false
+      collapsed: false,
+      defaultOpenKeys: ["/dashboard"],
+      defaultSelectedKeys: ["/dashboard/analysis"],
     };
   },
   methods: {
@@ -62,11 +58,23 @@ export default {
           this.$router.push({ name: "Login" });
         }
       }, 3000);
-    }
+    },
+    jumpLink(url) {
+      this.$router.push({ path: url });
+    },
+  },
+  beforeMount() {
+    let pathname = window.location.pathname;
+    pathname = pathname.split("/list")[0];
+    pathname = pathname.split("/new")[0];
+    pathname = pathname.split("/detail")[0];
+    const openKeys = "/" + pathname.split("/")[1].split("/")[0];
+    this.defaultSelectedKeys = [pathname];
+    this.defaultOpenKeys = [openKeys];
   },
   mounted() {
     this.redirectTo();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -1,15 +1,22 @@
 <template>
-  <div>
-      工作台
+  <div class='content'>
+    工作台
   </div>
 </template>
 
-<script>
-export default {
+<script lang='ts'>
+// @ is an alias to /src
 
-}
+export default {
+  name: "Analysis",
+  components: {
+  }
+};
 </script>
 
 <style lang='scss' scoped>
+.content{
+  display: grid;
 
+}
 </style>

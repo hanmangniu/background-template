@@ -5,11 +5,6 @@ import VueRouter, { RouteConfig } from "vue-router";
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-  // {
-  //   path: "/",
-  //   name: "Loading",
-  //   component: Loading,
-  // },
   {
     path: "/login",
     name: "Login",
@@ -25,11 +20,23 @@ const routes: Array<RouteConfig> = [
       name: 'Dashboard',
       component: () => import('../views/dashboard/Dashboard.vue'),
       redirect: '/dashboard/analysis',
-      children: [{
+      children: [
+        {
         path: 'analysis',
         name: 'Analysis',
         component: () => import('../views/dashboard/analysis/Analysis.vue')
-      }]
+      },
+        {
+        path: 'monitor',
+        name: 'Monitor',
+        component: () => import('../views/dashboard/monitor/Monitor.vue')
+      },
+        {
+        path: 'workplace',
+        name: 'Workplace',
+        component: () => import('../views/dashboard/workplace/Workplace.vue')
+      },
+    ]
     }]
   }
 ];
